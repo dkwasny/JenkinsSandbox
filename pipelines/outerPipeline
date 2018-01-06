@@ -19,7 +19,7 @@ pipeline {
 
 		stage('Normal Step') {
 			steps {
-				build job: 'echo-job',
+				build job: 'echoJob',
 					parameters: [
 						string(name: 'param', value: "$params.input normal step")
 					]
@@ -28,7 +28,7 @@ pipeline {
 
 		stage('Nested Step') {
 			steps {
-				build job: 'parameterized-pipeline',
+				build job: 'innerPipeline',
 					parameters: [
 						string(name: 'A', value: "$params.input A"),
 						string(name: 'B', value: "$params.input B"),
@@ -39,7 +39,7 @@ pipeline {
 
 		stage('Final Step') {
 			steps {
-				build job: 'echo-job',
+				build job: 'echoJob',
 					parameters: [
 						string(name: 'param', value: "$params.input final step")
 					]

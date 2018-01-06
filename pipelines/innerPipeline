@@ -23,7 +23,7 @@ pipeline {
 
 		stage('First Step') {
 			steps {
-				build job: 'echo-job',
+				build job: 'echoJob',
 					parameters: [
 						string(name: 'param', value: "$params.A")
 					]
@@ -34,7 +34,7 @@ pipeline {
 			parallel {
 				stage('PStep 1') {
 					steps {
-						build job: 'echo-job',
+						build job: 'echoJob',
 							parameters: [
 								string(name: 'param', value: "$params.B")
 							]
@@ -42,7 +42,7 @@ pipeline {
 				}
 				stage('PStep 2') {
 					steps {
-						build job: 'echo-job',
+						build job: 'echoJob',
 							parameters: [
 								string(name: 'param', value: "$params.C")
 							]
@@ -53,7 +53,7 @@ pipeline {
 		
 		stage('Final Step') {
 			steps {
-				build job: 'echo-job',
+				build job: 'echoJob',
 					parameters: [
 						string(name: 'param', value: "$params.A and $params.B and $params.C")
 					]
