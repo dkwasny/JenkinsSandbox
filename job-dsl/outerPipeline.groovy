@@ -3,7 +3,7 @@ pipelineJob('outerPipeline') {
 		cpsScm {
 			scm {
 				git('https://github.com/dkwasny/JenkinsSandbox.git')
-				scriptPath('outerPipeline/Jenkinsfile')
+				scriptPath('pipelines/outerPipeline')
 			}
 		}
 	}
