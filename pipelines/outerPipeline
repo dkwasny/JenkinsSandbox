@@ -1,0 +1,49 @@
+pipeline {
+	agent any
+
+	parameters {
+		string(name: "input")
+	}
+
+	stages {
+
+		stage('Inititalization') {
+			steps {
+				script {
+					if ("$params.input" == "null") {
+						error("input in null")
+					}
+				}
+			}
+		}
+
+		stage('Normal Step') {
+			steps {
+				build job: 'echo-job',
+					parameters: [
+						string(name: 'param', value: "$params.input normal step")
+					]
+			}
+		}
+
+		stage('Nested Step') {
+			steps {
+				build job: 'parameterized-pipeline',
+					parameters: [
+						string(name: 'A', value: "$params.input A"),
+						string(name: 'B', value: "$params.input B"),
+						string(name: 'C', value: "$params.input C")
+					]
+			}
+		}
+
+		stage('Final Step') {
+			steps {
+				build job: 'echo-job',
+					parameters: [
+						string(name: 'param', value: "$params.input final step")
+					]
+			}
+		}
+	}
+}

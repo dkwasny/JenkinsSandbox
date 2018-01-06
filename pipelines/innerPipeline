@@ -1,0 +1,66 @@
+pipeline {
+
+	agent any
+
+	parameters {
+		string(name: 'A')
+		string(name: 'B')
+		string(name: 'C')
+	}
+
+	stages {
+		
+		/* The purpose of this step is to ensure the first "parameterless" run of the pipeline fails fast */
+		stage('Initialization') {
+			steps {
+				script {
+					if ("$params.A" == "null") {
+						error("A is null...must be first run or PBCAK")
+					}
+				}
+			}
+		}
+
+		stage('First Step') {
+			steps {
+				build job: 'echo-job',
+					parameters: [
+						string(name: 'param', value: "$params.A")
+					]
+			}
+		}
+
+		stage('Parallel Step') {
+			parallel {
+				stage('PStep 1') {
+					steps {
+						build job: 'echo-job',
+							parameters: [
+								string(name: 'param', value: "$params.B")
+							]
+					}
+				}
+				stage('PStep 2') {
+					steps {
+						build job: 'echo-job',
+							parameters: [
+								string(name: 'param', value: "$params.C")
+							]
+					}
+				}
+			}
+		}
+		
+		stage('Final Step') {
+			steps {
+				build job: 'echo-job',
+					parameters: [
+						string(name: 'param', value: "$params.A and $params.B and $params.C")
+					]
+			}
+		}
+					
+
+	}
+
+}
