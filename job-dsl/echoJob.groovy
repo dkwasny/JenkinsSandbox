@@ -9,7 +9,7 @@ freeStyleJob('echoJob') {
 	steps {
 		shell('''
 			echo "$param"
-			sleep 10
+			sleep 5
 		''')
 	}
 
